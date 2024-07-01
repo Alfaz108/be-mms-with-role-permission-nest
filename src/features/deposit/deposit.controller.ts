@@ -34,9 +34,9 @@ export class DepositController {
   async getAllDeposit(
     @Pagination() pagination: IPagination,
   ): Promise<{ data: Deposit[]; pagination: PaginationOptions }> {
-    const { diposit, pagination: paginationOptions } =
+    const { deposit, pagination: paginationOptions } =
       await this.depositService.findAll(pagination);
-    return { data: diposit, pagination: paginationOptions };
+    return { data: deposit, pagination: paginationOptions };
   }
 
   // POST a new bazar

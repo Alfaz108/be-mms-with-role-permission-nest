@@ -10,6 +10,9 @@ import {
 import { MemberService } from '../member/member.service';
 import { Member } from '../member/schemas/member.schema';
 import { UpdateMemberDto } from '../member/dto/update.member.dto';
+import { UpdateSummaryDto } from '../summary/dto/update.summary.dto';
+import { SummaryService } from '../summary/summary.service';
+import { Summary } from '../summary/Schemas/summary.schema';
 
 @Injectable()
 export class DepositService {
@@ -17,75 +20,71 @@ export class DepositService {
     @InjectModel(Deposit.name)
     private readonly depositModel: mongoose.Model<Deposit>,
     private readonly memberService: MemberService,
+    private readonly summaryService: SummaryService,
   ) {}
 
   async findAll(
     pagination: IPagination,
-  ): Promise<{ diposit: Deposit[]; pagination: PaginationOptions }> {
+  ): Promise<{ deposit: Deposit[]; pagination: PaginationOptions }> {
     const { page, limit, order } = pagination;
 
     const totalDocument = await this.depositModel.countDocuments();
-    const diposit = await this.depositModel
+    const deposit = await this.depositModel
       .find({})
       .skip((page - 1) * limit)
       .limit(limit)
       .sort({ clientId: order === 'asc' ? 1 : -1 });
 
     return {
-      diposit,
+      deposit,
       pagination: {
-        currentPage: page,
+        page: page,
         totalPage: Math.ceil(totalDocument / limit),
-        allDataCount: totalDocument,
+        limit: limit,
       },
     };
   }
 
   async create(
-    deposit: createDepositDto,
-  ): Promise<{ deposit: Deposit; member: Member }> {
-    const member = await this.memberService.findById(deposit?.member);
+    createDepositDto: createDepositDto,
+  ): Promise<{ deposit: Deposit; summary: Summary }> {
+    const member = await this.memberService.findById(createDepositDto?.member);
     if (!member) {
       throw new NotFoundException('member not found');
     }
 
+    const memberSummary = await this.summaryService.findByMemberId(
+      createDepositDto?.member,
+    );
+    if (!memberSummary) {
+      throw new NotFoundException('member summary not found');
+    }
+
+    const createdDeposit = await this.depositModel.create(createDepositDto);
+
     const newDepositAmount =
-      Number(deposit?.depositAmount) + Number(member?.depositAmount);
+      Number(createDepositDto.depositAmount) +
+      Number(memberSummary.depositAmount);
 
-    const createdDeposit = await this.depositModel.create(deposit);
+    const newSummaryAmount =
+      Number(newDepositAmount) - Number(memberSummary.totalCost);
 
-    const newSummaryAmount = Number(deposit?.depositAmount) + 0;
-
-    // const summaryUpdateDto = {
-    //   member: member?._id,
-    //   mealRate: member?.mealRate,
-    //   mealQuantity: member?.mealQuantity,
-    //   totalCost: member?.totalCost,
-    //   depositAmount: newDepositAmount,
-    //   summaryAmount: newSummaryAmount,
-    // };
-
-    const updateBorderDto: UpdateMemberDto = {
-      name: member.name,
-      mobile: member.mobile,
-      roomNumber: member.roomNumber,
+    const updateSummary: UpdateSummaryDto = {
+      member: createDepositDto.member,
+      mealRate: memberSummary.mealRate,
+      mealQuantity: memberSummary.mealQuantity,
       depositAmount: newDepositAmount,
-      mealQuantity: member.mealQuantity,
-      status: member.status,
+      totalCost: memberSummary.totalCost,
       summaryAmount: newSummaryAmount,
-      month: member?.month,
-      mealRate: member?.mealRate,
-      totalCost: member?.totalCost,
     };
-
-    const borderUpdate = await this.memberService.updateById(
-      deposit?.member,
-      updateBorderDto,
+    const summary = await this.summaryService.updateById(
+      memberSummary._id.toString(),
+      updateSummary,
     );
 
     return {
       deposit: createdDeposit,
-      member: borderUpdate,
+      summary: summary,
     };
   }
 }

@@ -4,7 +4,7 @@ import { Types } from 'mongoose';
 export class createDepositDto {
   @IsNotEmpty({ message: 'date is required' })
   @IsDateString()
-  dipositDate: Date;
+  depositDate: Date;
 
   @IsNotEmpty({ message: 'member is required' })
   @IsMongoId()

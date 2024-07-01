@@ -21,10 +21,6 @@ export class CreateUserDto {
   @IsString({ message: 'Please enter a correct room number' })
   roomNumber: string;
 
-  @IsNotEmpty({ message: 'month is required' })
-  @IsDateString()
-  month: Date;
-
   @IsNotEmpty({ message: 'password is required' })
   @IsString()
   @MinLength(8, { message: 'Minimum password length should be 8 characters' })

@@ -1,4 +1,10 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+  forwardRef,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { Market } from './schemas/market.schema';
@@ -9,6 +15,11 @@ import {
   IPagination,
   PaginationOptions,
 } from 'src/common/interfaces/pagination.interface';
+import { MealService } from '../meal/meal.service';
+import { CreateSummaryDto } from '../summary/dto/create.summary.dto';
+import { UpdateSummaryDto } from '../summary/dto/update.summary.dto';
+import { SummaryService } from '../summary/summary.service';
+import { Summary } from '../summary/Schemas/summary.schema';
 
 @Injectable()
 export class MarketService {
@@ -16,6 +27,9 @@ export class MarketService {
     @InjectModel(Market.name)
     private marketModel: mongoose.Model<Market>,
     private readonly MemberService: MemberService,
+    @Inject(forwardRef(() => MealService))
+    private readonly mealService: MealService,
+    private readonly summaryService: SummaryService,
   ) {}
 
   async findAll(
@@ -33,14 +47,16 @@ export class MarketService {
     return {
       market,
       pagination: {
-        currentPage: page,
+        page: page,
         totalPage: Math.ceil(totalDocument / limit),
-        allDataCount: totalDocument,
+        limit: limit,
       },
     };
   }
 
-  async create(createMarketDto: CreateMarketDto): Promise<Market> {
+  async create(
+    createMarketDto: CreateMarketDto,
+  ): Promise<{ market: Market; summary: Summary[] }> {
     const findMember = await this.MemberService.findById(
       createMarketDto.member,
     );
@@ -48,8 +64,50 @@ export class MarketService {
     if (!findMember) {
       throw new UnauthorizedException('Member not found');
     }
-    const res = await this.marketModel.create(createMarketDto);
-    return res;
+
+    const market = await this.marketModel.create(createMarketDto);
+
+    const marketData = await this.marketModel.find();
+    const totalPriceSum = marketData.reduce(
+      (sum, currentMarket) => sum + currentMarket.totalPrice,
+      0,
+    );
+
+    const mealData = await this.mealService.findAllMeal();
+    const totalMealSum = mealData.meal.reduce(
+      (sum, currentMeal) => sum + currentMeal.mealQuantity,
+      0,
+    );
+    const mealRate = Number(totalPriceSum || 0) / Number(totalMealSum || 0);
+
+    const memberSummaries = await this.summaryService.findAllSummary();
+
+    const Summary = [];
+
+    for (const summary of memberSummaries.summary) {
+      const memberSummary = await this.summaryService.findByMemberId(
+        summary.member,
+      );
+      if (!memberSummary) {
+        throw new NotFoundException('member summary not found');
+      }
+      const newTotalCost =
+        Number(mealRate || 0) * Number(summary.mealQuantity || 0);
+      const newSummaryAmount =
+        Number(summary.depositAmount || 0) - Number(newTotalCost || 0);
+      Summary.push({
+        _id: summary._id,
+        member: summary.member,
+        mealRate: mealRate,
+        mealQuantity: summary.mealQuantity,
+        depositAmount: summary.depositAmount,
+        totalCost: newTotalCost,
+        summaryAmount: newSummaryAmount,
+      });
+    }
+    const summaries = await this.summaryService.updateSummaries(Summary);
+
+    return { market, summary: summaries };
   }
 
   async findById(id: string): Promise<Market> {
@@ -69,5 +127,14 @@ export class MarketService {
 
   async deleteById(id: string): Promise<Market> {
     return await this.marketModel.findByIdAndDelete(id);
+  }
+
+  async findAllMarket(): Promise<{
+    market: Market[];
+  }> {
+    const market = await this.marketModel.find();
+    return {
+      market,
+    };
   }
 }

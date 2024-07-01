@@ -18,6 +18,9 @@ import { ROLE_ENUM } from 'src/constant/enums/role.Enam';
 import { UserService } from 'src/features/user/user.service';
 import { CreateUserDto } from 'src/features/user/dto/createUser.dto';
 import { UpdateMemberDto } from './dto/update.member.dto';
+import { SummaryService } from '../summary/summary.service';
+import { CreateSummaryDto } from '../summary/dto/create.summary.dto';
+import { Summary } from '../summary/Schemas/summary.schema';
 
 @Injectable()
 export class MemberService {
@@ -25,11 +28,13 @@ export class MemberService {
     @InjectModel(Member.name)
     private readonly memberModel: mongoose.Model<Member>,
     private readonly UserService: UserService,
+    private readonly summaryService: SummaryService,
   ) {}
 
   async findAll(
     pagination: IPagination,
   ): Promise<{ member: Member[]; pagination: PaginationOptions }> {
+    console.log('ii ');
     const { page, limit, order } = pagination;
 
     const totalDocument = await this.memberModel.countDocuments();
@@ -42,9 +47,9 @@ export class MemberService {
     return {
       member,
       pagination: {
-        currentPage: page,
+        page: page,
+        limit: limit,
         totalPage: Math.ceil(totalDocument / limit),
-        allDataCount: totalDocument,
       },
     };
   }
@@ -53,7 +58,10 @@ export class MemberService {
     return this.memberModel.find({ status: 'ACTIVE' });
   }
 
-  async create(createMemberDto: CreateMemberDto): Promise<{ member: Member }> {
+  async create(
+    createMemberDto: CreateMemberDto,
+  ): Promise<{ member: Member; summary: Summary }> {
+    //@ Check if member already exists
     const findMember = await this.memberModel.findOne({
       mobile: createMemberDto.mobile,
     });
@@ -61,8 +69,10 @@ export class MemberService {
       throw new UnauthorizedException('Member already exists!');
     }
 
+    //@ Create new member
     const createdMember = await this.memberModel.create(createMemberDto);
 
+    //@ Create user for the member
     const password = 'MMS12345';
     const createUser: CreateUserDto = {
       name: createMemberDto.name,
@@ -70,12 +80,22 @@ export class MemberService {
       roomNumber: createMemberDto.roomNumber,
       password: password,
       role: ROLE_ENUM.MEMBER,
-      month: createMemberDto.month,
     };
-
     const user = await this.UserService.create(createUser);
 
-    return { member: createdMember };
+    //@ Create summary for the member
+    const createSummary: CreateSummaryDto = {
+      member: createdMember._id as mongoose.Types.ObjectId,
+      mealRate: 0,
+      mealQuantity: 0,
+      depositAmount: 0,
+      totalCost: 0,
+      summaryAmount: 0,
+    };
+    const summary = await this.summaryService.create(createSummary);
+
+    //@ Return the created member and summary
+    return { member: createdMember, summary: summary };
   }
 
   async findById(id: mongoose.Types.ObjectId): Promise<Member> {

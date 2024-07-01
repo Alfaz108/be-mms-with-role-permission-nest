@@ -16,9 +16,6 @@ export class User extends Document {
   @Prop({ type: String })
   roomNumber: string;
 
-  @Prop({ type: Date, required: true })
-  month: Date;
-
   @Prop({ type: String, required: true })
   password: string;
 

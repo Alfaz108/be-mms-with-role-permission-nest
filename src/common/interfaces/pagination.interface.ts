@@ -5,7 +5,7 @@ export interface IPagination {
 }
 
 export interface PaginationOptions {
-  currentPage: number;
+  page: number;
+  limit: number;
   totalPage: number;
-  allDataCount: number;
 }

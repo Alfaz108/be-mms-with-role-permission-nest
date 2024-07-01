@@ -52,17 +52,10 @@ export class MealController {
   @UseGuards(AuthGuard(), RolesGuard)
   @Roles(ROLE_ENUM.MANAGER)
   async create(@Body() createMealDto: CreateMealDto) {
-    try {
-      const data = await this.mealService.create(createMealDto);
-      return {
-        data,
-        message: 'meal created successfully',
-      };
-    } catch (error) {
-      return {
-        error: error.message,
-        message: 'meal created failed',
-      };
-    }
+    const data = await this.mealService.create(createMealDto);
+    return {
+      data,
+      message: 'meal created successfully',
+    };
   }
 }

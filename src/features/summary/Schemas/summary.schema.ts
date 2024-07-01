@@ -8,7 +8,7 @@ import mongoose, { Document } from 'mongoose';
 export class Summary extends Document {
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'member',
+    ref: 'members',
     required: true,
   })
   member: mongoose.Types.ObjectId;

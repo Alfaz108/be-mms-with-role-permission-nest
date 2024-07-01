@@ -19,7 +19,7 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<{ user: User }> {
-    const { name, mobile, roomNumber, month, password, role } = createUserDto;
+    const { name, mobile, roomNumber, password, role } = createUserDto;
 
     const findUser = await this.userModel.findOne({
       mobile: mobile,
@@ -34,7 +34,6 @@ export class UserService {
       name,
       mobile,
       roomNumber,
-      month,
       password: hasPassword,
       role,
     });
@@ -61,9 +60,9 @@ export class UserService {
     return {
       member,
       pagination: {
-        currentPage: page,
+        page: page,
+        limit: limit,
         totalPage: Math.ceil(totalDocument / limit),
-        allDataCount: totalDocument,
       },
     };
   }
@@ -85,7 +84,6 @@ export class UserService {
       mobile: updateUserDto?.mobile,
       role: updateUserDto?.role,
       roomNumber: updateUserDto?.roomNumber,
-      month: updateUserDto?.month,
       password: findUser?.password,
     };
     const user = await this.userModel.findByIdAndUpdate(id, updateUser, {
@@ -114,7 +112,6 @@ export class UserService {
       mobile: findUser?.mobile,
       role: findUser?.role,
       roomNumber: findUser?.roomNumber,
-      month: findUser?.month,
       password: hasPassword,
     };
 

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Summary, SummarySchema } from './Schemas/summary.schema';
 
@@ -9,9 +9,9 @@ import { MemberModule } from '../member/member.module';
 
 @Module({
   imports: [
-    AuthModule,
     MongooseModule.forFeature([{ name: Summary.name, schema: SummarySchema }]),
-    MemberModule,
+    AuthModule,
+    forwardRef(() => MemberModule),
   ],
   controllers: [SummaryController],
   providers: [SummaryService],

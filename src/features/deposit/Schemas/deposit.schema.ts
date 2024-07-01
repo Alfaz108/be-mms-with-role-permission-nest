@@ -8,7 +8,7 @@ import { STATUS_ENUM } from 'src/constant/enums/status.Enam';
 })
 export class Deposit {
   @Prop({ type: Date, required: true })
-  dipositDate: Date;
+  depositDate: Date;
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,

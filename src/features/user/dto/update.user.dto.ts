@@ -21,10 +21,6 @@ export class UpdateUserDto {
   @IsString({ message: 'Please enter a correct room number' })
   roomNumber: string;
 
-  @IsNotEmpty({ message: 'month is required' })
-  @IsDateString()
-  month: Date;
-
   @IsNotEmpty({ message: 'role is required' })
   @IsEnum(ROLE_ENUM)
   role: ROLE_ENUM;

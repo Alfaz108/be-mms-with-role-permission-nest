@@ -7,7 +7,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 
-import { Types } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 export class UpdateSummaryDto {
   @IsNotEmpty({ message: 'member is required' })

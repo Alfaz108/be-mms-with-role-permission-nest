@@ -31,7 +31,6 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  @UseGuards(AuthGuard())
   async create(@Body() user: CreateUserDto) {
     try {
       const data = await this.userService.create(user);

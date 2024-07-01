@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { STATUS_ENUM } from 'src/constant/enums/status.Enam';
+import { STATUS_ENUM } from 'src/constant/enums/status.enum';
 
 @Schema({
   timestamps: true,

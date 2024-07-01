@@ -13,7 +13,7 @@ import { Member } from './schemas/member.schema';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateMemberDto } from './dto/create.member.dto';
 import { Roles } from 'src/common/decorator/roles.decorator';
-import { ROLE_ENUM } from 'src/constant/enums/role.Enam';
+import { ROLE_ENUM } from 'src/constant/enums/role.enum';
 import { RolesGuard } from 'src/common/decorator/roles.guard';
 import {
   IPagination,

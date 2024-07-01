@@ -6,8 +6,8 @@ import {
   IsString,
   MinLength,
 } from 'class-validator';
-import { ROLE_ENUM } from 'src/constant/enums/role.Enam';
-import { STATUS_ENUM } from 'src/constant/enums/status.Enam';
+import { ROLE_ENUM } from 'src/constant/enums/role.enum';
+import { STATUS_ENUM } from 'src/constant/enums/status.enum';
 
 export class CreateMemberDto {
   @IsNotEmpty({ message: 'Name is required' })

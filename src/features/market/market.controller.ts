@@ -14,7 +14,7 @@ import { Market } from './schemas/market.schema';
 import { CreateMarketDto } from './dto/create.market.dto';
 import { UpdateMarketDto } from './dto/update.marker.dto';
 import { RolesGuard } from 'src/common/decorator/roles.guard';
-import { ROLE_ENUM } from 'src/constant/enums/role.Enam';
+import { ROLE_ENUM } from 'src/constant/enums/role.enum';
 import { Roles } from 'src/common/decorator/roles.decorator';
 import {
   IPagination,

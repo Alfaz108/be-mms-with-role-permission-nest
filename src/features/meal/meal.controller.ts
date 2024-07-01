@@ -14,7 +14,7 @@ import { Meal } from './Schemas/meal.schema';
 import { CreateMealDto } from './dto/create.meal.dto';
 import { RolesGuard } from 'src/common/decorator/roles.guard';
 import { Roles } from 'src/common/decorator/roles.decorator';
-import { ROLE_ENUM } from 'src/constant/enums/role.Enam';
+import { ROLE_ENUM } from 'src/constant/enums/role.enum';
 import { Pagination } from 'src/common/decorator/pagination.decorator';
 import {
   IPagination,

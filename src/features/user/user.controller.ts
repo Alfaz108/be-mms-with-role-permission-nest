@@ -14,7 +14,6 @@ import { UserService } from './user.service';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateUserDto } from './dto/createUser.dto';
 import { RolesGuard } from 'src/common/decorator/roles.guard';
-import { ROLE_ENUM } from 'src/constant/enums/role.Enam';
 import { Roles } from 'src/common/decorator/roles.decorator';
 import { Pagination } from 'src/common/decorator/pagination.decorator';
 import {
@@ -25,6 +24,7 @@ import { User } from './schemas/user.schema';
 import mongoose from 'mongoose';
 import { UpdateUserDto } from './dto/update.user.dto';
 import { ResetPasswordDto } from './dto/reset.pass.dto';
+import { ROLE_ENUM } from 'src/constant/enums/role.enum';
 
 @Controller('user')
 export class UserController {

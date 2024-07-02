@@ -7,7 +7,7 @@ import { UpdateSummaryDto } from './dto/update.summary.dto';
 import {
   IPagination,
   PaginationOptions,
-} from 'src/common/interfaces/pagination.interface';
+} from '../../common/interfaces/pagination.interface';
 import { BulkWriteResult } from 'mongodb';
 
 @Injectable()

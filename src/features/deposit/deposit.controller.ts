@@ -13,14 +13,14 @@ import { DepositService } from './deposit.service';
 
 import { Deposit } from './Schemas/deposit.schema';
 import { createDepositDto } from './dto/create.deposit.dto';
-import { RolesGuard } from 'src/common/decorator/roles.guard';
-import { ROLE_ENUM } from 'src/constant/enums/role.enum';
-import { Roles } from 'src/common/decorator/roles.decorator';
-import { Pagination } from 'src/common/decorator/pagination.decorator';
+import { RolesGuard } from '../../common/decorator/roles.guard';
+import { ROLE_ENUM } from '../../constant/enums/role.enum';
+import { Roles } from '../../common/decorator/roles.decorator';
+import { Pagination } from '../../common/decorator/pagination.decorator';
 import {
   IPagination,
   PaginationOptions,
-} from 'src/common/interfaces/pagination.interface';
+} from '../../common/interfaces/pagination.interface';
 
 @Controller('deposit')
 export class DepositController {

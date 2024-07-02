@@ -12,14 +12,14 @@ import { AuthGuard } from '@nestjs/passport';
 import { MealService } from './meal.service';
 import { Meal } from './Schemas/meal.schema';
 import { CreateMealDto } from './dto/create.meal.dto';
-import { RolesGuard } from 'src/common/decorator/roles.guard';
-import { Roles } from 'src/common/decorator/roles.decorator';
-import { ROLE_ENUM } from 'src/constant/enums/role.enum';
-import { Pagination } from 'src/common/decorator/pagination.decorator';
+import { RolesGuard } from '../../common/decorator/roles.guard';
+import { Roles } from '../../common/decorator/roles.decorator';
+import { ROLE_ENUM } from '../../constant/enums/role.enum';
+import { Pagination } from '../../common/decorator/pagination.decorator';
 import {
   IPagination,
   PaginationOptions,
-} from 'src/common/interfaces/pagination.interface';
+} from '../../common/interfaces/pagination.interface';
 
 @Controller('meal')
 export class MealController {

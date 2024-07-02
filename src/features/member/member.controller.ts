@@ -12,14 +12,14 @@ import { MemberService } from './member.service';
 import { Member } from './schemas/member.schema';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateMemberDto } from './dto/create.member.dto';
-import { Roles } from 'src/common/decorator/roles.decorator';
-import { ROLE_ENUM } from 'src/constant/enums/role.enum';
-import { RolesGuard } from 'src/common/decorator/roles.guard';
+import { Roles } from '../../common/decorator/roles.decorator';
+import { ROLE_ENUM } from '../../constant/enums/role.enum';
+import { RolesGuard } from '../../common/decorator/roles.guard';
 import {
   IPagination,
   PaginationOptions,
-} from 'src/common/interfaces/pagination.interface';
-import { Pagination } from 'src/common/decorator/pagination.decorator';
+} from '../../common/interfaces/pagination.interface';
+import { Pagination } from '../../common/decorator/pagination.decorator';
 import mongoose from 'mongoose';
 import { UpdateMemberDto } from './dto/update.member.dto';
 

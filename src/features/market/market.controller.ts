@@ -13,14 +13,14 @@ import { MarketService } from './market.service';
 import { Market } from './schemas/market.schema';
 import { CreateMarketDto } from './dto/create.market.dto';
 import { UpdateMarketDto } from './dto/update.marker.dto';
-import { RolesGuard } from 'src/common/decorator/roles.guard';
-import { ROLE_ENUM } from 'src/constant/enums/role.enum';
-import { Roles } from 'src/common/decorator/roles.decorator';
+import { RolesGuard } from '../../common/decorator/roles.guard';
+import { ROLE_ENUM } from '../../constant/enums/role.enum';
+import { Roles } from '../../common/decorator/roles.decorator';
 import {
   IPagination,
   PaginationOptions,
-} from 'src/common/interfaces/pagination.interface';
-import { Pagination } from 'src/common/decorator/pagination.decorator';
+} from '../../common/interfaces/pagination.interface';
+import { Pagination } from '../../common/decorator/pagination.decorator';
 
 @Controller('market')
 export class MarketController {

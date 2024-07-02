@@ -16,7 +16,7 @@ import { UpdateMemberDto } from '../member/dto/update.member.dto';
 import {
   IPagination,
   PaginationOptions,
-} from 'src/common/interfaces/pagination.interface';
+} from '../../common/interfaces/pagination.interface';
 import { SummaryService } from '../summary/summary.service';
 import { MarketService } from '../market/market.service';
 import { Summary } from '../summary/Schemas/summary.schema';

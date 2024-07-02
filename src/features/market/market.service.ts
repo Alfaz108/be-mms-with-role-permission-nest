@@ -14,7 +14,7 @@ import { MemberService } from '../member/member.service';
 import {
   IPagination,
   PaginationOptions,
-} from 'src/common/interfaces/pagination.interface';
+} from '../../common/interfaces/pagination.interface';
 import { MealService } from '../meal/meal.service';
 import { CreateSummaryDto } from '../summary/dto/create.summary.dto';
 import { UpdateSummaryDto } from '../summary/dto/update.summary.dto';

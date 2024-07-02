@@ -13,8 +13,8 @@ import * as bcrypt from 'bcryptjs';
 import {
   IPagination,
   PaginationOptions,
-} from 'src/common/interfaces/pagination.interface';
-import { ROLE_ENUM } from 'src/constant/enums/role.enum';
+} from '../../common/interfaces/pagination.interface';
+import { ROLE_ENUM } from '../../constant/enums/role.enum';
 import { UserService } from 'src/features/user/user.service';
 import { CreateUserDto } from 'src/features/user/dto/createUser.dto';
 import { UpdateMemberDto } from './dto/update.member.dto';

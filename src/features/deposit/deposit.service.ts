@@ -6,7 +6,7 @@ import { createDepositDto } from './dto/create.deposit.dto';
 import {
   IPagination,
   PaginationOptions,
-} from 'src/common/interfaces/pagination.interface';
+} from '../../common/interfaces/pagination.interface';
 import { MemberService } from '../member/member.service';
 import { Member } from '../member/schemas/member.schema';
 import { UpdateMemberDto } from '../member/dto/update.member.dto';

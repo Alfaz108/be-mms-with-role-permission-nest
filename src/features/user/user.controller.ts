@@ -13,18 +13,18 @@ import {
 import { UserService } from './user.service';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateUserDto } from './dto/createUser.dto';
-import { RolesGuard } from 'src/common/decorator/roles.guard';
-import { Roles } from 'src/common/decorator/roles.decorator';
-import { Pagination } from 'src/common/decorator/pagination.decorator';
+import { RolesGuard } from '../../common/decorator/roles.guard';
+import { Roles } from '../../common/decorator/roles.decorator';
+import { Pagination } from '../../common/decorator/pagination.decorator';
 import {
   IPagination,
   PaginationOptions,
-} from 'src/common/interfaces/pagination.interface';
+} from '../../common/interfaces/pagination.interface';
 import { User } from './schemas/user.schema';
 import mongoose from 'mongoose';
 import { UpdateUserDto } from './dto/update.user.dto';
 import { ResetPasswordDto } from './dto/reset.pass.dto';
-import { ROLE_ENUM } from 'src/constant/enums/role.enum';
+import { ROLE_ENUM } from '../../constant/enums/role.enum';
 
 @Controller('user')
 export class UserController {

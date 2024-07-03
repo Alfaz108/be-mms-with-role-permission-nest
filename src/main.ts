@@ -13,7 +13,15 @@ async function bootstrap() {
   app.useGlobalFilters(new AllExceptionFilter(httpAdapter));
 
   app.useGlobalInterceptors(new ResponseInterceptor());
-  app.enableCors();
-  await app.listen(3000);
+
+  app.enableCors({
+    origin: [
+      'http://localhost:3000',
+      'https://fe-mms-with-role-permission-mui-react.vercel.app/',
+    ],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  });
+  await app.listen(7070);
 }
 bootstrap();

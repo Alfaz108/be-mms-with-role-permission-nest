@@ -10,13 +10,6 @@ async function bootstrap() {
   // Enable CORS to allow all origins, methods, and headers
   app.enableCors({
     origin: '*',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: '*',
-    exposedHeaders: '*',
-    credentials: true,
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
-    maxAge: 86400,
   });
 
   app.useGlobalPipes(new ValidationPipe());

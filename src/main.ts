@@ -15,13 +15,12 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ResponseInterceptor());
 
   app.enableCors({
-    origin: [
-      'http://localhost:7070',
-      'https://fe-mms-with-role-permission-mui-react.vercel.app/',
-    ],
+    origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: 'Content-Type,Authorization',
     credentials: true,
   });
+
   await app.listen(7070);
 }
 bootstrap();

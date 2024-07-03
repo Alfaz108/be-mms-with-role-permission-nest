@@ -7,8 +7,11 @@ import { ResponseInterceptor } from './common/interceptor/response/response.inte
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    allowedHeaders: '*',
-    origin: '*',
+    origin: ['http://localhost:3000', 'http://localhost:4200'], // add the origins you want to allow
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+    credentials: true,
   });
 
   app.useGlobalPipes(new ValidationPipe());

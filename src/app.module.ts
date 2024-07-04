@@ -9,6 +9,7 @@ import { MealModule } from './features/meal/meal.module';
 import { MarketModule } from './features/market/market.module';
 import { DepositModule } from './features/deposit/deposit.module';
 import { SummaryModule } from './features/summary/summary.module';
+import { DashboardModule } from './features/dash-board/dashboard.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { SummaryModule } from './features/summary/summary.module';
     MarketModule,
     DepositModule,
     SummaryModule,
+    DashboardModule,
   ],
   controllers: [AppController],
   providers: [AppService],

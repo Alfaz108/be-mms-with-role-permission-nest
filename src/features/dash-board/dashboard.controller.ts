@@ -32,4 +32,11 @@ export class DashboardController {
     const data = await this.dashboardService.findAll();
     return data;
   }
+  @Get('admin')
+  @UseGuards(AuthGuard(), RolesGuard)
+  @Roles(ROLE_ENUM.MEMBER, ROLE_ENUM.MANAGER, ROLE_ENUM.ADMIN)
+  async getAdminDashboardData(): Promise<Dashboard> {
+    const data = await this.dashboardService.getAdminDashboardData();
+    return data;
+  }
 }

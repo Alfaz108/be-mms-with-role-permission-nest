@@ -19,7 +19,7 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<{ user: User }> {
-    const { name, mobile, roomNumber, password, role } = createUserDto;
+    const { member, name, mobile, roomNumber, password, role } = createUserDto;
 
     const findUser = await this.userModel.findOne({
       mobile: mobile,
@@ -31,6 +31,7 @@ export class UserService {
     const hasPassword = await bcrypt.hash(password, 10);
 
     const createdUser = await this.userModel.create({
+      member,
       name,
       mobile,
       roomNumber,

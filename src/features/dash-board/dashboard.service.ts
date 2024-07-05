@@ -6,6 +6,8 @@ import { SummaryService } from '../summary/summary.service';
 import { Summary } from '../summary/Schemas/summary.schema';
 import { Member } from '../member/schemas/member.schema';
 import { STATUS_ENUM } from '../../constant/enums/status.enum';
+import { User } from '../user/schemas/user.schema';
+import { ROLE_ENUM } from '../../constant/enums/role.enum';
 
 @Injectable()
 export class DashboardService {
@@ -17,6 +19,8 @@ export class DashboardService {
     private summaryModel: mongoose.Model<Summary>,
     @InjectModel(Member.name)
     private readonly memberModel: mongoose.Model<Member>,
+    @InjectModel(User.name)
+    private readonly userModel: mongoose.Model<User>,
   ) {}
 
   async findAll(): Promise<Dashboard> {
@@ -74,5 +78,27 @@ export class DashboardService {
     };
 
     return dashboardData;
+  }
+
+  async getAdminDashboardData(): Promise<any> {
+    // Count the total number of users
+    const totalUsers = await this.userModel.countDocuments();
+
+    // Count the number of members
+    const memberCount = await this.userModel.countDocuments({
+      role: ROLE_ENUM.MEMBER,
+    });
+
+    // Get the manager's details (assuming there is only one manager)
+    const manager = await this.userModel.findOne(
+      { role: ROLE_ENUM.MANAGER },
+      'name',
+    );
+
+    return {
+      totalUsers,
+      memberCount,
+      managerName: manager ? manager.name : null,
+    };
   }
 }

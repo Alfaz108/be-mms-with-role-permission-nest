@@ -61,6 +61,7 @@ export class MemberService {
   async create(
     createMemberDto: CreateMemberDto,
   ): Promise<{ member: Member; summary: Summary }> {
+    console.log({ createMemberDto });
     //@ Check if member already exists
     const findMember = await this.memberModel.findOne({
       mobile: createMemberDto.mobile,
@@ -71,16 +72,20 @@ export class MemberService {
 
     //@ Create new member
     const createdMember = await this.memberModel.create(createMemberDto);
+    console.log({ createdMember });
 
     //@ Create user for the member
     const password = 'MMS12345';
     const createUser: CreateUserDto = {
+      member: createdMember._id as mongoose.Types.ObjectId,
       name: createMemberDto.name,
       mobile: createMemberDto.mobile,
       roomNumber: createMemberDto.roomNumber,
       password: password,
       role: ROLE_ENUM.MEMBER,
     };
+
+    console.log({ createUser });
     const user = await this.UserService.create(createUser);
 
     //@ Create summary for the member
@@ -99,7 +104,9 @@ export class MemberService {
   }
 
   async findById(id: mongoose.Types.ObjectId): Promise<Member> {
+    console.log(id);
     const member = await this.memberModel.findById(id);
+    console.log({ member });
     return member;
   }
 

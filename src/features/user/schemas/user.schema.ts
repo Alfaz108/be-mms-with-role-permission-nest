@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 import { ROLE_ENUM } from '../../../constant/enums/role.enum';
 
 @Schema({
@@ -9,6 +9,11 @@ import { ROLE_ENUM } from '../../../constant/enums/role.enum';
 export class User extends Document {
   @Prop({ type: String, required: true })
   name: string;
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'member',
+  })
+  member: mongoose.Types.ObjectId;
 
   @Prop({ type: String, required: true, trim: true })
   mobile: string;

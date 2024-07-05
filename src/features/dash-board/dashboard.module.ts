@@ -8,6 +8,7 @@ import { DashboardService } from './dashboard.service';
 import { Dashboard, DashboardSchema } from './Schemas/dashboard.schema';
 import { Summary, SummarySchema } from '../summary/Schemas/summary.schema';
 import { Member, MemberSchema } from '../member/schemas/member.schema';
+import { User, UserSchema } from '../user/schemas/user.schema';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { Member, MemberSchema } from '../member/schemas/member.schema';
       { name: Dashboard.name, schema: DashboardSchema },
       { name: Summary.name, schema: SummarySchema },
       { name: Member.name, schema: MemberSchema },
+      { name: User.name, schema: UserSchema },
     ]),
     AuthModule,
   ],

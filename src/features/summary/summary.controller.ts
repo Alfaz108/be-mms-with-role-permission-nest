@@ -19,6 +19,7 @@ import {
   IPagination,
   PaginationOptions,
 } from '../../common/interfaces/pagination.interface';
+import mongoose from 'mongoose';
 
 @Controller('summary')
 export class SummaryController {
@@ -34,5 +35,15 @@ export class SummaryController {
     const { summary, pagination: paginationOptions } =
       await this.summaryService.findAll(pagination);
     return { data: summary, pagination: paginationOptions };
+  }
+
+  //@ GET a member by ID
+  @Get(':memberId')
+  @UseGuards(AuthGuard(), RolesGuard)
+  @Roles(ROLE_ENUM.MEMBER)
+  async getSingleMember(
+    @Param('memberId') memberId: mongoose.Types.ObjectId,
+  ): Promise<Summary> {
+    return this.summaryService.findByMemberId(memberId);
   }
 }

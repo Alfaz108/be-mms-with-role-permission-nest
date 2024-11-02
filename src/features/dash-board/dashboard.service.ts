@@ -46,6 +46,16 @@ export class DashboardService {
       },
     ]);
 
+    // Provide a default object if totalSummary is empty
+    const summaryData = totalSummary[0] || {
+      totalDeposit: 0,
+      totalMealQuantity: 0,
+      totalCost: 0,
+      positiveSummaryCount: 0,
+      negativeSummaryCount: 0,
+      mealRate: 0,
+    };
+
     const memberStatusCounts = await this.memberModel.aggregate([
       {
         $group: {
@@ -63,18 +73,18 @@ export class DashboardService {
     const activeCount = statusCounts[STATUS_ENUM.ACTIVE] || 0;
     const inactiveCount = statusCounts[STATUS_ENUM.INACTIVE] || 0;
     const totalCashInHand =
-      Number(totalSummary[0].totalDeposit) - Number(totalSummary[0].totalCost);
+      Number(summaryData.totalDeposit) - Number(summaryData.totalCost);
 
     const dashboardData = {
       totalActiveMember: activeCount,
       totalInActiveMember: inactiveCount,
-      totalPositiveMember: totalSummary[0].positiveSummaryCount,
-      totalNegativeMember: totalSummary[0].negativeSummaryCount,
-      totalDeposit: totalSummary[0].totalDeposit,
-      totalCost: totalSummary[0].totalCost,
-      totalMeal: totalSummary[0].totalMealQuantity,
+      totalPositiveMember: summaryData.positiveSummaryCount,
+      totalNegativeMember: summaryData.negativeSummaryCount,
+      totalDeposit: summaryData.totalDeposit,
+      totalCost: summaryData.totalCost,
+      totalMeal: summaryData.totalMealQuantity,
       totalCashInHand: totalCashInHand,
-      mealRate: totalSummary[0].mealRate,
+      mealRate: summaryData.mealRate,
     };
 
     return dashboardData;

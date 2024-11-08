@@ -39,6 +39,15 @@ export class MemberController {
     return { data: member, pagination: paginationOptions };
   }
 
+  //@ GET all members with pagination
+  @Get()
+  @UseGuards(AuthGuard(), RolesGuard)
+  @Roles(ROLE_ENUM.MEMBER, ROLE_ENUM.MANAGER, ROLE_ENUM.ADMIN)
+  async getDropdown(): Promise<Member[]> {
+    const member = await this.memberService.getDropdown();
+    return member;
+  }
+
   //@ create a new member
   @Post()
   @UseGuards(AuthGuard(), RolesGuard)

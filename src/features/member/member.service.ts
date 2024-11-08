@@ -54,6 +54,12 @@ export class MemberService {
     };
   }
 
+  async getDropdown(): Promise<Member[]> {
+    const member = await this.memberModel.find();
+
+    return member;
+  }
+
   async findAllActive(): Promise<Member[]> {
     return this.memberModel.find({ status: 'ACTIVE' });
   }

@@ -40,7 +40,7 @@ export class MemberController {
   }
 
   //@ GET all members with pagination
-  @Get()
+  @Get('dropdown')
   @UseGuards(AuthGuard(), RolesGuard)
   @Roles(ROLE_ENUM.MEMBER, ROLE_ENUM.MANAGER, ROLE_ENUM.ADMIN)
   async getDropdown(): Promise<Member[]> {

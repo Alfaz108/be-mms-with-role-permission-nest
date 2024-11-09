@@ -43,7 +43,7 @@ export class MealService {
       .find({})
       .skip((page - 1) * limit)
       .limit(limit)
-      .sort({ clientId: order === 'asc' ? 1 : -1 });
+      .sort({ mealDate: order === 'asc' ? 1 : -1 });
 
     return {
       meal,
